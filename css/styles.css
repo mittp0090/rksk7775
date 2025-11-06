@@ -36,19 +36,29 @@ header {
     z-index: 1000;
 }
 
-.navbar {
-    padding: 1rem 0;
-}
-
-.navbar .container {
+.logo-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    padding: 1.5rem 0 1rem 0;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .logo h1 {
     color: var(--primary-color);
-    font-size: 1.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.navbar {
+    padding: 0.75rem 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 .nav-menu {
@@ -73,6 +83,8 @@ header {
     flex-direction: column;
     cursor: pointer;
     gap: 4px;
+    position: absolute;
+    right: 20px;
 }
 
 .hamburger span {
@@ -284,6 +296,10 @@ footer .container {
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+
     .hamburger {
         display: flex;
     }
@@ -298,10 +314,15 @@ footer .container {
         flex-direction: column;
         padding: 1rem;
         box-shadow: var(--shadow);
+        text-align: center;
     }
 
     .nav-menu.active {
         display: flex;
+    }
+
+    .navbar .container {
+        justify-content: center;
     }
 
     .hero h2 {
