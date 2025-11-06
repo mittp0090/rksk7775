@@ -6,8 +6,8 @@
 }
 
 :root {
-    --primary-color: #2563eb;
-    --secondary-color: #1e40af;
+    --primary-color: #1f2937;
+    --secondary-color: #374151;
     --text-color: #1f2937;
     --light-bg: #f9fafb;
     --white: #ffffff;
@@ -177,7 +177,7 @@ section > .container > p {
 
 .gallery-placeholder {
     aspect-ratio: 1;
-    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -329,11 +329,11 @@ section > .container > p {
 
 .instagram-placeholder {
     aspect-ratio: 1;
-    background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+    background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--white);
+    color: var(--gray);
     font-weight: 500;
 }
 
