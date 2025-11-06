@@ -1,4 +1,4 @@
-// 관리자 로그인 JavaScript - API 연동 버전
+// 관리자 로그인 JavaScript - Firebase 버전
 
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const username = document.getElementById('username').value;
+        const email = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const rememberMe = document.getElementById('rememberMe').checked;
 
@@ -20,35 +20,46 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.textContent = '로그인 중...';
 
         try {
-            const response = await fetch('../api/auth/login.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password
-                })
-            });
+            // Firebase Authentication으로 로그인
+            const userCredential = await auth.signInWithEmailAndPassword(email, password);
+            const user = userCredential.user;
 
-            const data = await response.json();
+            // 관리자 권한 확인
+            const adminDoc = await db.collection('admins').doc(user.uid).get();
 
-            if (data.success) {
-                // 로그인 성공
-                if (rememberMe) {
-                    localStorage.setItem('rememberMe', 'true');
-                }
-
-                // 대시보드로 리다이렉트
-                window.location.href = 'dashboard.html';
-            } else {
-                // 로그인 실패
-                showError(data.message || '로그인에 실패했습니다.');
+            if (!adminDoc.exists) {
+                // 관리자가 아닌 경우
+                await auth.signOut();
+                showError('관리자 권한이 없습니다.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '로그인';
+                return;
             }
+
+            // 로그인 성공
+            if (rememberMe) {
+                // Firebase는 기본적으로 세션을 유지하므로 persistence 설정
+                await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+            } else {
+                await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+            }
+
+            // 대시보드로 리다이렉트
+            window.location.href = 'dashboard.html';
         } catch (error) {
             console.error('Login error:', error);
-            showError('서버 연결에 실패했습니다.');
-        } finally {
+
+            // Firebase 에러 메시지 변환
+            let errorMsg = '로그인에 실패했습니다.';
+            if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                errorMsg = '이메일 또는 비밀번호가 올바르지 않습니다.';
+            } else if (error.code === 'auth/invalid-email') {
+                errorMsg = '올바른 이메일 형식이 아닙니다.';
+            } else if (error.code === 'auth/too-many-requests') {
+                errorMsg = '너무 많은 로그인 시도가 있었습니다. 잠시 후 다시 시도해주세요.';
+            }
+
+            showError(errorMsg);
             submitBtn.disabled = false;
             submitBtn.textContent = '로그인';
         }
@@ -63,17 +74,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
 
-    async function checkAuthStatus() {
-        try {
-            const response = await fetch('../api/auth/check.php');
-            const data = await response.json();
-
-            if (data.success) {
-                // 이미 로그인된 경우
-                window.location.href = 'dashboard.html';
+    function checkAuthStatus() {
+        auth.onAuthStateChanged(async function(user) {
+            if (user) {
+                // 관리자 권한 확인
+                const adminDoc = await db.collection('admins').doc(user.uid).get();
+                if (adminDoc.exists) {
+                    // 이미 로그인된 관리자
+                    window.location.href = 'dashboard.html';
+                }
             }
-        } catch (error) {
-            console.error('Auth check error:', error);
-        }
+        });
     }
 });

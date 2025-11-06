@@ -1,0 +1,61 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // 관리자 확인 함수
+    function isAdmin() {
+      return request.auth != null &&
+             firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid));
+    }
+
+    // 이미지 파일 검증
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    // 비디오 파일 검증
+    function isVideo() {
+      return request.resource.contentType.matches('video/.*');
+    }
+
+    // 파일 크기 제한 (10MB)
+    function isValidSize() {
+      return request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // 갤러리 이미지
+    match /gallery/{imageId} {
+      allow read: if true; // 모두 읽기 가능
+      allow write: if isAdmin() && isImage() && isValidSize();
+      allow delete: if isAdmin();
+    }
+
+    // 웨딩 무비 썸네일
+    match /wedding-movie/{movieId} {
+      allow read: if true;
+      allow write: if isAdmin() && isImage() && isValidSize();
+      allow delete: if isAdmin();
+    }
+
+    // 제품 이미지
+    match /product/{productId} {
+      allow read: if true;
+      allow write: if isAdmin() && isImage() && isValidSize();
+      allow delete: if isAdmin();
+    }
+
+    // 블로그 이미지
+    match /blog/{imageId} {
+      allow read: if true;
+      allow write: if isAdmin() && isImage() && isValidSize();
+      allow delete: if isAdmin();
+    }
+
+    // 인스타그램 이미지
+    match /instagram/{postId} {
+      allow read: if true;
+      allow write: if isAdmin() && isImage() && isValidSize();
+      allow delete: if isAdmin();
+    }
+  }
+}

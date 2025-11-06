@@ -31,11 +31,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // 클릭한 버튼에 active 클래스 추가
             this.classList.add('active');
 
-            // 여기에 카테고리 필터링 로직을 추가할 수 있습니다
+            // 카테고리 필터링
             const category = this.getAttribute('data-category');
-            console.log('Selected category:', category);
+            loadGalleryItems(category);
         });
     });
+
+    // 갤러리 아이템 로드
+    loadGalleryItems();
 
     // 네비게이션 메뉴 클릭 시 스무스 스크롤
     const navLinks = document.querySelectorAll('.nav-menu a');
@@ -163,6 +166,85 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// 갤러리 아이템 로드 함수
+async function loadGalleryItems(category = 'all') {
+    try {
+        let query = db.collection('gallery').where('visible', '==', true);
+
+        // 카테고리 필터
+        if (category !== 'all') {
+            query = query.where('category', '==', category);
+        }
+
+        // 최신순 정렬
+        query = query.orderBy('created_at', 'desc');
+
+        const snapshot = await query.get();
+        const images = [];
+
+        snapshot.forEach(doc => {
+            images.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+
+        displayGalleryItems(images);
+    } catch (error) {
+        console.error('Load gallery error:', error);
+        // 에러 발생 시 빈 배열로 표시
+        displayGalleryItems([]);
+    }
+}
+
+// 갤러리 아이템 표시
+function displayGalleryItems(images) {
+    const galleryGrid = document.querySelector('.gallery-grid');
+    if (!galleryGrid) return;
+
+    galleryGrid.innerHTML = '';
+
+    if (images.length === 0) {
+        galleryGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">등록된 이미지가 없습니다.</p>';
+        return;
+    }
+
+    images.forEach(image => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.setAttribute('data-category', image.category);
+
+        const img = document.createElement('img');
+        img.src = image.image_url;
+        img.alt = image.description || '';
+        img.loading = 'lazy'; // 지연 로딩
+        img.onerror = function() {
+            this.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="300"%3E%3Crect fill="%23ddd" width="300" height="300"/%3E%3Ctext fill="%23999" x="50%25" y="50%25" text-anchor="middle" dy=".3em"%3EError%3C/text%3E%3C/svg%3E';
+        };
+
+        item.appendChild(img);
+        galleryGrid.appendChild(item);
+
+        // 스크롤 애니메이션 적용
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+        // IntersectionObserver 적용
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        observer.observe(item);
+    });
+}
 
 // 페이지 로드 애니메이션
 window.addEventListener('load', function() {

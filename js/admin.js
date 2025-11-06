@@ -1,4 +1,4 @@
-// 관리자 공통 JavaScript - API 연동 버전
+// 관리자 공통 JavaScript - Firebase 버전
 
 document.addEventListener('DOMContentLoaded', function() {
     // 로그인 체크
@@ -11,51 +11,55 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-async function checkAdminLogin() {
+function checkAdminLogin() {
     // 로그인 페이지가 아닌 경우에만 체크
     if (!window.location.pathname.includes('login.html')) {
-        try {
-            const response = await fetch('../api/auth/check.php');
-            const data = await response.json();
-
-            if (!data.success) {
+        auth.onAuthStateChanged(async function(user) {
+            if (!user) {
                 // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
                 window.location.href = 'login.html';
-            } else {
-                // 사용자 정보 표시
-                displayAdminUsername(data.data.username);
+                return;
             }
-        } catch (error) {
-            console.error('Auth check error:', error);
-            window.location.href = 'login.html';
-        }
+
+            try {
+                // 관리자 권한 확인
+                const adminDoc = await db.collection('admins').doc(user.uid).get();
+
+                if (!adminDoc.exists) {
+                    // 관리자가 아닌 경우
+                    await auth.signOut();
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // 사용자 정보 표시
+                const adminData = adminDoc.data();
+                displayAdminUsername(adminData.email || user.email);
+            } catch (error) {
+                console.error('Auth check error:', error);
+                window.location.href = 'login.html';
+            }
+        });
     }
 }
 
-function displayAdminUsername(username) {
+function displayAdminUsername(email) {
     const usernameElement = document.getElementById('adminUsername');
     if (usernameElement) {
-        usernameElement.textContent = username || '관리자';
+        // 이메일에서 @앞부분만 표시 또는 전체 이메일 표시
+        const displayName = email.split('@')[0];
+        usernameElement.textContent = displayName || '관리자';
     }
 }
 
 async function handleLogout() {
     if (confirm('로그아웃 하시겠습니까?')) {
         try {
-            const response = await fetch('../api/auth/logout.php', {
-                method: 'POST'
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                window.location.href = 'login.html';
-            } else {
-                alert('로그아웃 실패');
-            }
+            await auth.signOut();
+            window.location.href = 'login.html';
         } catch (error) {
             console.error('Logout error:', error);
-            alert('서버 연결에 실패했습니다.');
+            alert('로그아웃에 실패했습니다.');
         }
     }
 }
