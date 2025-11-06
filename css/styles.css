@@ -100,7 +100,7 @@ header {
 /* 히어로 섹션 */
 .hero {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: var(--white);
+    color: #ffffff;
     padding: 8rem 0;
     text-align: center;
 }
@@ -108,17 +108,19 @@ header {
 .hero h2 {
     font-size: 3rem;
     margin-bottom: 1rem;
+    color: #ffffff;
 }
 
 .hero p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
     opacity: 0.9;
+    color: #ffffff;
 }
 
 .cta-button {
-    background-color: var(--white);
-    color: var(--primary-color);
+    background-color: #ffffff;
+    color: var(--text-color);
     padding: 1rem 2rem;
     font-size: 1.1rem;
     border: none;
