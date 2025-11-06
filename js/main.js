@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, observerOptions);
 
     // 애니메이션을 적용할 요소들
-    const animateElements = document.querySelectorAll('.feature-card, .service-item');
+    const animateElements = document.querySelectorAll('.gallery-item, .video-item, .product-item, .faq-item, .instagram-item, .blog-post');
     animateElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';

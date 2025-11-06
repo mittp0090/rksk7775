@@ -133,72 +133,222 @@ header {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* 소개 섹션 */
-.about {
+/* 공통 섹션 스타일 */
+section {
     padding: 5rem 0;
-    background-color: var(--white);
 }
 
-.about h2 {
+section h2 {
     text-align: center;
     font-size: 2.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 3rem;
     color: var(--text-color);
 }
 
-.about > .container > p {
+section > .container > p {
     text-align: center;
     color: var(--gray);
     margin-bottom: 3rem;
     font-size: 1.1rem;
 }
 
-.features {
+/* 갤러리 섹션 */
+.gallery {
+    background-color: var(--white);
+}
+
+.gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
 }
 
-.feature-card {
-    padding: 2rem;
-    background-color: var(--light-bg);
+.gallery-item {
+    position: relative;
+    overflow: hidden;
     border-radius: 12px;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px);
     box-shadow: var(--shadow);
+    transition: transform 0.3s;
 }
 
-.feature-card h3 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
+.gallery-item:hover {
+    transform: scale(1.05);
 }
 
-/* 서비스 섹션 */
-.services {
-    padding: 5rem 0;
+.gallery-placeholder {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+    font-weight: 500;
+}
+
+/* 웨딩 무비 섹션 */
+.wedding-movie {
     background-color: var(--light-bg);
 }
 
-.services h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: var(--text-color);
-}
-
-.service-grid {
+.video-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
 }
 
-.service-item {
+.video-item {
+    background-color: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s;
+}
+
+.video-item:hover {
+    transform: translateY(-5px);
+}
+
+.video-placeholder {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: 500;
+}
+
+.video-item h3 {
+    padding: 1.5rem;
+    color: var(--text-color);
+    font-size: 1.2rem;
+}
+
+/* 제품 섹션 */
+.product {
+    background-color: var(--white);
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.product-item {
+    background-color: var(--light-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.product-item h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.product-item p {
+    margin-bottom: 1.5rem;
+    color: var(--gray);
+}
+
+.product-btn {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.product-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+/* 질문 섹션 */
+.question {
+    background-color: var(--light-bg);
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background-color: var(--white);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.faq-item h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.faq-item p {
+    color: var(--gray);
+    line-height: 1.8;
+}
+
+/* 인스타그램 섹션 */
+.instagram {
+    background-color: var(--white);
+}
+
+.instagram-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.instagram-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s;
+}
+
+.instagram-item:hover {
+    transform: scale(1.05);
+}
+
+.instagram-placeholder {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: 500;
+}
+
+/* 블로그 섹션 */
+.blog {
+    background-color: var(--light-bg);
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.blog-post {
     background-color: var(--white);
     padding: 2rem;
     border-radius: 12px;
@@ -206,67 +356,37 @@ header {
     transition: transform 0.3s;
 }
 
-.service-item:hover {
-    transform: scale(1.05);
+.blog-post:hover {
+    transform: translateY(-5px);
 }
 
-.service-item h3 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
+.blog-post h3 {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
     font-size: 1.5rem;
 }
 
-/* 연락처 섹션 */
-.contact {
-    padding: 5rem 0;
-    background-color: var(--white);
+.blog-date {
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
 }
 
-.contact h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: var(--text-color);
+.blog-post p {
+    color: var(--gray);
+    line-height: 1.8;
+    margin-bottom: 1rem;
 }
 
-.contact-form {
-    max-width: 600px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.contact-form input,
-.contact-form textarea {
-    padding: 1rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: inherit;
-    transition: border-color 0.3s;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-}
-
-.contact-form button {
-    background-color: var(--primary-color);
-    color: var(--white);
-    padding: 1rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
+.read-more {
+    color: var(--primary-color);
+    text-decoration: none;
     font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    transition: color 0.3s;
 }
 
-.contact-form button:hover {
-    background-color: var(--secondary-color);
+.read-more:hover {
+    color: var(--secondary-color);
 }
 
 /* 푸터 */
@@ -342,8 +462,11 @@ footer .container {
         text-align: center;
     }
 
-    .features,
-    .service-grid {
+    .gallery-grid,
+    .video-grid,
+    .product-grid,
+    .instagram-grid,
+    .blog-grid {
         grid-template-columns: 1fr;
     }
 }
@@ -353,9 +476,7 @@ footer .container {
         padding: 4rem 0;
     }
 
-    .about,
-    .services,
-    .contact {
+    section {
         padding: 3rem 0;
     }
 
