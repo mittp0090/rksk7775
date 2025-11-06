@@ -46,11 +46,16 @@ header {
     width: 100%;
 }
 
+.logo-container a {
+    text-decoration: none;
+}
+
 .logo-container h1 {
     color: var(--primary-color);
     font-size: 2rem;
     font-weight: 700;
     margin: 0;
+    cursor: pointer;
 }
 
 .navbar {
@@ -79,6 +84,13 @@ header {
 
 .nav-menu a:hover {
     color: var(--primary-color);
+}
+
+.nav-menu a.active {
+    color: var(--primary-color);
+    font-weight: 600;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 4px;
 }
 
 .hamburger {
@@ -157,6 +169,15 @@ section > .container > p {
 /* 갤러리 섹션 */
 .gallery {
     background-color: var(--white);
+    padding-top: 3rem !important;
+}
+
+/* 각 페이지의 첫 번째 섹션 패딩 조정 */
+.wedding-movie,
+.product,
+.question,
+.instagram,
+.blog {
     padding-top: 3rem !important;
 }
 
