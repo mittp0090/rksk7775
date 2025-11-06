@@ -22,6 +22,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // 갤러리 카테고리 버튼
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // 모든 버튼에서 active 클래스 제거
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            // 클릭한 버튼에 active 클래스 추가
+            this.classList.add('active');
+
+            // 여기에 카테고리 필터링 로직을 추가할 수 있습니다
+            const category = this.getAttribute('data-category');
+            console.log('Selected category:', category);
+        });
+    });
+
     // 네비게이션 메뉴 클릭 시 스무스 스크롤
     const navLinks = document.querySelectorAll('.nav-menu a');
     navLinks.forEach(link => {

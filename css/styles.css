@@ -159,6 +159,36 @@ section > .container > p {
     background-color: var(--white);
 }
 
+.gallery-categories {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.category-btn {
+    background-color: transparent;
+    border: 1px solid #d1d5db;
+    color: var(--text-color);
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.category-btn:hover {
+    background-color: var(--light-bg);
+    border-color: var(--text-color);
+}
+
+.category-btn.active {
+    background-color: var(--text-color);
+    color: #ffffff;
+    border-color: var(--text-color);
+}
+
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -448,6 +478,15 @@ footer .container {
 
     .navbar .container {
         justify-content: center;
+    }
+
+    .gallery-categories {
+        gap: 0.25rem;
+    }
+
+    .category-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
     }
 
     .hero h2 {
