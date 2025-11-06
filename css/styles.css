@@ -168,7 +168,7 @@ section > .container > p {
 .gallery-item {
     position: relative;
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 0;
     box-shadow: var(--shadow);
     transition: transform 0.3s;
 }
