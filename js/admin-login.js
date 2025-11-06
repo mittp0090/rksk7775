@@ -1,43 +1,79 @@
-// 관리자 로그인 JavaScript
+// 관리자 로그인 JavaScript - API 연동 버전
 
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     const errorMessage = document.getElementById('errorMessage');
 
-    // 이미 로그인된 경우 대시보드로 리다이렉트
-    if (localStorage.getItem('adminLoggedIn') === 'true') {
-        window.location.href = 'dashboard.html';
-    }
+    // 이미 로그인된 경우 체크
+    checkAuthStatus();
 
-    loginForm.addEventListener('submit', function(e) {
+    loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();
 
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const rememberMe = document.getElementById('rememberMe').checked;
 
-        // 실제 프로덕션에서는 서버로 인증 요청을 보내야 합니다
-        // 여기서는 데모를 위한 간단한 로그인 체크
-        if (username === 'admin' && password === 'admin123') {
-            // 로그인 성공
-            localStorage.setItem('adminLoggedIn', 'true');
-            localStorage.setItem('adminUsername', username);
+        // 로그인 버튼 비활성화
+        const submitBtn = loginForm.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = '로그인 중...';
 
-            if (rememberMe) {
-                localStorage.setItem('rememberMe', 'true');
+        try {
+            const response = await fetch('../api/auth/login.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // 로그인 성공
+                if (rememberMe) {
+                    localStorage.setItem('rememberMe', 'true');
+                }
+
+                // 대시보드로 리다이렉트
+                window.location.href = 'dashboard.html';
+            } else {
+                // 로그인 실패
+                showError(data.message || '로그인에 실패했습니다.');
             }
-
-            // 대시보드로 리다이렉트
-            window.location.href = 'dashboard.html';
-        } else {
-            // 로그인 실패
-            errorMessage.textContent = '아이디 또는 비밀번호가 올바르지 않습니다.';
-            errorMessage.style.display = 'block';
-
-            // 3초 후 에러 메시지 숨김
-            setTimeout(function() {
-                errorMessage.style.display = 'none';
-            }, 3000);
+        } catch (error) {
+            console.error('Login error:', error);
+            showError('서버 연결에 실패했습니다.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '로그인';
         }
     });
+
+    function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+
+        setTimeout(function() {
+            errorMessage.style.display = 'none';
+        }, 3000);
+    }
+
+    async function checkAuthStatus() {
+        try {
+            const response = await fetch('../api/auth/check.php');
+            const data = await response.json();
+
+            if (data.success) {
+                // 이미 로그인된 경우
+                window.location.href = 'dashboard.html';
+            }
+        } catch (error) {
+            console.error('Auth check error:', error);
+        }
+    }
 });

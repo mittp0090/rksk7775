@@ -1,11 +1,8 @@
-// 관리자 공통 JavaScript
+// 관리자 공통 JavaScript - API 연동 버전
 
 document.addEventListener('DOMContentLoaded', function() {
     // 로그인 체크
     checkAdminLogin();
-
-    // 사용자 이름 표시
-    displayAdminUsername();
 
     // 로그아웃 버튼
     const logoutBtn = document.getElementById('logoutBtn');
@@ -14,31 +11,52 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-function checkAdminLogin() {
+async function checkAdminLogin() {
     // 로그인 페이지가 아닌 경우에만 체크
     if (!window.location.pathname.includes('login.html')) {
-        const isLoggedIn = localStorage.getItem('adminLoggedIn');
+        try {
+            const response = await fetch('../api/auth/check.php');
+            const data = await response.json();
 
-        if (isLoggedIn !== 'true') {
-            // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+            if (!data.success) {
+                // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
+                window.location.href = 'login.html';
+            } else {
+                // 사용자 정보 표시
+                displayAdminUsername(data.data.username);
+            }
+        } catch (error) {
+            console.error('Auth check error:', error);
             window.location.href = 'login.html';
         }
     }
 }
 
-function displayAdminUsername() {
+function displayAdminUsername(username) {
     const usernameElement = document.getElementById('adminUsername');
     if (usernameElement) {
-        const username = localStorage.getItem('adminUsername') || '관리자';
-        usernameElement.textContent = username;
+        usernameElement.textContent = username || '관리자';
     }
 }
 
-function handleLogout() {
+async function handleLogout() {
     if (confirm('로그아웃 하시겠습니까?')) {
-        localStorage.removeItem('adminLoggedIn');
-        localStorage.removeItem('adminUsername');
-        window.location.href = 'login.html';
+        try {
+            const response = await fetch('../api/auth/logout.php', {
+                method: 'POST'
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                window.location.href = 'login.html';
+            } else {
+                alert('로그아웃 실패');
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+            alert('서버 연결에 실패했습니다.');
+        }
     }
 }
 
