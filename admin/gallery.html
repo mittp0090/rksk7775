@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="신영수스냅 갤러리 관리">
+    <title>신영수스냅 - 갤러리 관리</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body">
+    <!-- 관리자 헤더 -->
+    <header class="admin-header">
+        <div class="admin-header-content">
+            <h1>신영수스냅 관리자</h1>
+            <div class="admin-user-info">
+                <span id="adminUsername">관리자</span>
+                <button id="logoutBtn" class="logout-btn">로그아웃</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <!-- 사이드바 -->
+        <aside class="admin-sidebar">
+            <nav class="admin-nav">
+                <a href="dashboard.html" class="admin-nav-item">
+                    <span>📊</span> 대시보드
+                </a>
+                <a href="gallery.html" class="admin-nav-item active">
+                    <span>🖼️</span> 갤러리 관리
+                </a>
+                <a href="wedding-movie.html" class="admin-nav-item">
+                    <span>🎥</span> 웨딩 무비 관리
+                </a>
+                <a href="product.html" class="admin-nav-item">
+                    <span>📦</span> 제품 관리
+                </a>
+                <a href="question.html" class="admin-nav-item">
+                    <span>❓</span> FAQ 관리
+                </a>
+                <a href="blog.html" class="admin-nav-item">
+                    <span>📝</span> 블로그 관리
+                </a>
+                <a href="instagram.html" class="admin-nav-item">
+                    <span>📸</span> 인스타그램 관리
+                </a>
+            </nav>
+        </aside>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="admin-main">
+            <div class="admin-page-header">
+                <h2>갤러리 관리</h2>
+                <button class="btn-primary" id="uploadBtn">
+                    <span>➕</span> 이미지 업로드
+                </button>
+            </div>
+
+            <!-- 카테고리 필터 -->
+            <div class="admin-filters">
+                <button class="filter-btn active" data-category="all">전체</button>
+                <button class="filter-btn" data-category="wedding-ceremony">Wedding Ceremony</button>
+                <button class="filter-btn" data-category="prewedding">PreWedding</button>
+                <button class="filter-btn" data-category="body-profile">Body Profile</button>
+                <button class="filter-btn" data-category="profile">Profile</button>
+                <button class="filter-btn" data-category="hanbok">Hanbok</button>
+                <button class="filter-btn" data-category="etc">etc.</button>
+            </div>
+
+            <!-- 이미지 그리드 -->
+            <div class="admin-gallery-grid">
+                <div class="admin-gallery-item" data-category="wedding-ceremony">
+                    <img src="https://via.placeholder.com/300" alt="이미지 1">
+                    <div class="admin-gallery-overlay">
+                        <button class="btn-icon edit-btn" title="수정">✏️</button>
+                        <button class="btn-icon delete-btn" title="삭제">🗑️</button>
+                    </div>
+                    <div class="admin-gallery-info">
+                        <span class="category-tag">Wedding Ceremony</span>
+                    </div>
+                </div>
+
+                <div class="admin-gallery-item" data-category="prewedding">
+                    <img src="https://via.placeholder.com/300" alt="이미지 2">
+                    <div class="admin-gallery-overlay">
+                        <button class="btn-icon edit-btn" title="수정">✏️</button>
+                        <button class="btn-icon delete-btn" title="삭제">🗑️</button>
+                    </div>
+                    <div class="admin-gallery-info">
+                        <span class="category-tag">PreWedding</span>
+                    </div>
+                </div>
+
+                <div class="admin-gallery-item" data-category="body-profile">
+                    <img src="https://via.placeholder.com/300" alt="이미지 3">
+                    <div class="admin-gallery-overlay">
+                        <button class="btn-icon edit-btn" title="수정">✏️</button>
+                        <button class="btn-icon delete-btn" title="삭제">🗑️</button>
+                    </div>
+                    <div class="admin-gallery-info">
+                        <span class="category-tag">Body Profile</span>
+                    </div>
+                </div>
+
+                <div class="admin-gallery-item" data-category="profile">
+                    <img src="https://via.placeholder.com/300" alt="이미지 4">
+                    <div class="admin-gallery-overlay">
+                        <button class="btn-icon edit-btn" title="수정">✏️</button>
+                        <button class="btn-icon delete-btn" title="삭제">🗑️</button>
+                    </div>
+                    <div class="admin-gallery-info">
+                        <span class="category-tag">Profile</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 업로드 모달 -->
+    <div id="uploadModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>이미지 업로드</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm">
+                    <div class="form-group">
+                        <label for="imageFile">이미지 파일</label>
+                        <input type="file" id="imageFile" accept="image/*" multiple required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imageCategory">카테고리</label>
+                        <select id="imageCategory" required>
+                            <option value="">선택하세요</option>
+                            <option value="wedding-ceremony">Wedding Ceremony</option>
+                            <option value="prewedding">PreWedding</option>
+                            <option value="body-profile">Body Profile</option>
+                            <option value="profile">Profile</option>
+                            <option value="hanbok">Hanbok</option>
+                            <option value="etc">etc.</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imageDescription">설명 (선택)</label>
+                        <textarea id="imageDescription" rows="3"></textarea>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary modal-cancel">취소</button>
+                        <button type="submit" class="btn-primary">업로드</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/admin.js"></script>
+    <script src="../js/admin-gallery.js"></script>
+</body>
+</html>
