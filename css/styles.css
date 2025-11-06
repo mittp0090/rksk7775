@@ -157,6 +157,7 @@ section > .container > p {
 /* 갤러리 섹션 */
 .gallery {
     background-color: var(--white);
+    padding-top: 3rem !important;
 }
 
 .gallery-categories {
