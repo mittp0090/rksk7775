@@ -1,0 +1,39 @@
+# Firebase
+service-account-key.json
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# 임시 파일
+_temp_*.js
+*.tmp
+*.temp
+
+# 환경 변수
+.env
+.env.local
+.env.production
+
+# 에디터
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 빌드
+dist/
+build/
+
+# 백업
+*.backup
+*.bak

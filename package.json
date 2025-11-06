@@ -1,0 +1,24 @@
+{
+  "name": "shinyoungsoo-snap",
+  "version": "2.0.0",
+  "description": "신영수스냅 사진 포트폴리오 웹사이트",
+  "scripts": {
+    "setup": "node setup.js",
+    "deploy": "firebase deploy",
+    "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:rules": "firebase deploy --only firestore:rules,storage:rules",
+    "serve": "firebase serve",
+    "start": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "photography",
+    "wedding",
+    "portfolio",
+    "firebase"
+  ],
+  "author": "Shin Young-soo",
+  "license": "ISC",
+  "devDependencies": {
+    "firebase-tools": "^13.0.0"
+  }
+}
