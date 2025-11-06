@@ -554,6 +554,43 @@
     margin-top: 1.5rem;
 }
 
+/* 카테고리 통계 */
+.category-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.category-stat-item:hover {
+    background: #f3f4f6;
+}
+
+.category-name {
+    font-weight: 500;
+    color: #374151;
+}
+
+.category-count {
+    font-weight: 600;
+    color: #667eea;
+    font-size: 1.1rem;
+    padding: 0.25rem 0.75rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
 /* 반응형 */
 @media (max-width: 768px) {
     .admin-container {
@@ -575,5 +612,17 @@
 
     .stats-grid {
         grid-template-columns: 1fr;
+    }
+
+    .category-stat-item {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .category-name {
+        font-size: 0.9rem;
+    }
+
+    .category-count {
+        font-size: 1rem;
     }
 }
